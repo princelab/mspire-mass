@@ -10,7 +10,7 @@ mspire library holding constants for mass lookup.  Uses NIST masses (where appli
 
 ### MONO\_STRING and AVG\_STRING
 
-A simple hash may be accessed directly from the various kinds of masses:
+A simple hash may be accessed directly from the various modules:
 
 ```ruby
 require 'mspire/mass'
@@ -21,7 +21,7 @@ Mspire::Mass::Subatomic::MONO_STRING['NEUTRON'] # => 1.0086649156
 Mspire::Mass::Common::MONO_STRING['H2O']        # => 18.0105646837
 
 # similar for average masses
-Mspire::Mass::Element::AVG_STRING['C']          # => 12.0107 
+Mspire::Mass::Element::AVG_STRING['C']          # => 12.0107
 
 # note that elements are accessed in mixed case by default
 Mspire::Mass::Element::MONO_STRING['Se']        # => 79.9165213
@@ -31,8 +31,10 @@ A hash where everything but the amino acids is downcased can also be accessed
 
 ```ruby
 require 'mspire/mass/merged'  # <- must be required explicitly
-Mspire::Mass::Merged::MONO_STRING['C']  # => 103.0091844778   
-Mspire::Mass::Merged::MONO_STRING['c']  # => 12.0     
+Mspire::Mass::Merged::MONO_STRING['C']   # (cysteine) => 103.0091844778
+Mspire::Mass::Merged::MONO_STRING['c']   # (carbon)   => 12.0
+Mspire::Mass::Merged::MONO_STRING['h2o'] # (water)    => 18.0105646837
+Mspire::Mass::Merged::MONO_STRING['e']   # (or 'electron') => 0.0005486 
 ```
 
 ### <Module>.masses
