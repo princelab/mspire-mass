@@ -1,6 +1,6 @@
 # Mspire::Mass
 
-mspire library holding constants for mass lookup.  Uses NIST masses (where applicable) upstream from [mspire-isotope](https://github.com/princelab/mspire-isotope).  See [mspire-molecular_formula](https://github.com/princelab/mspire-molecular_formula) for mass or m/z methods for larger molecular formulas.
+mspire library holding constants for mass lookup.  Uses NIST masses (where applicable).  See [mspire-isotope](https://github.com/princelab/mspire-isotope) for complete isotope information (including masses).  See [mspire-molecular_formula](https://github.com/princelab/mspire-molecular_formula) for mass or m/z methods for larger molecular formulas.
 
 ## Installation
 
