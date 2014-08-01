@@ -1,6 +1,6 @@
 # Mspire::Mass
 
-mspire library holding constants for mass lookup.  See [mspire-molecular_formula](https://github.com/princelab/mspire-molecular_formula) for mass or m/z methods.
+mspire library holding constants for mass lookup.  Uses NIST masses (where applicable) upstream from [mspire-isotope](https://github.com/princelab/mspire-isotope).  See [mspire-molecular_formula](https://github.com/princelab/mspire-molecular_formula) for mass or m/z methods for larger molecular formulas.
 
 ## Installation
 
@@ -8,36 +8,64 @@ mspire library holding constants for mass lookup.  See [mspire-molecular_formula
 
 ## Examples
 
-### Basic usage
+### MONO\_STRING and AVG\_STRING
+
+A simple hash may be accessed directly from the various kinds of masses:
 
 ```ruby
 require 'mspire/mass'
 
-#       <default>
-# by   = :symbol | :string | :both
-# type = :mono   | :avg
-# case = :up     | :down
+Mspire::Mass::Element::MONO_STRING['C']         # => 12.0
+Mspire::Mass::AA::MONO_STRING['C']              # => 103.0091844778 (residue)
+Mspire::Mass::Subatomic::MONO_STRING['NEUTRON'] # => 1.0086649156
+Mspire::Mass::Common::MONO_STRING['H2O']        # => 18.0105646837
 
-lookup = Mspire::Mass::Element.masses
-# which defaults to this
-lookup = Mspire::Mass::Element.masses(type: :mono, by: :symbol, case: :up)
-lookup[:C]  # (carbon) => 
+# similar for average masses
+Mspire::Mass::Element::AVG_STRING['C']          # => 12.0107 
 
-aas = Mspire::Mass::AA.masses(type: :mono, by: :symbol)
-aas[:C] # (cysteine) => 
-
-subatomic = Mspire::Mass::Subatomic.masses
-subatomic[:ELECTRON]
-subatomic[:NEUTRON]
-subatomic[:PROTON]   # (same as subatomic[:H+])
-
-# very common molecules (see Mspire::MolecularFormula to get mass from any mol formula)
-Mspire::Mass::Common[:H2O] # (water) => 
+# note that elements are accessed in mixed case by default
+Mspire::Mass::Element::MONO_STRING['Se']        # => 79.9165213
 ```
 
-For those who want to be able to access *everything* in one lookup table, we
-downcase everything but amino acids and allow access by symbol or string
+A hash where everything but the amino acids is downcased can also be accessed
 
-all = Mspire::Mass::All.masses(type: :mono)   # downcase everything but amino acids
-all[:C]  # (cysteine) => 
-all[:c]  # (carbon) => 
+```ruby
+require 'mspire/mass/merged'  # <- must be required explicitly
+Mspire::Mass::Merged::MONO_STRING['C']  # => 103.0091844778   
+Mspire::Mass::Merged::MONO_STRING['c']  # => 12.0     
+```
+
+### <Module>.masses
+
+A mass hash can be created in a variety of forms depending on your
+needs/preferences.
+
+    ---------------------------------
+          <default>
+    ---------------------------------
+    type = :mono   | :avg
+    by   = :symbol | :string | :both
+    case = :up     | :down   | :both
+
+```ruby
+el_masses = Mspire::Mass::Element.masses
+# which defaults to this
+el_masses = Mspire::Mass::Element.masses(type: :mono, by: :symbol, case: :up)
+el_masses[:C]  # (carbon) => 12.0
+
+aas = Mspire::Mass::AA.masses(type: :avg, by: :string)
+aas['C'] # (cysteine) => 103.1429
+
+subatomic = Mspire::Mass::Subatomic.masses
+subatomic[:PROTON]   # (same as subatomic[:'H+'] or subatomic[:H_PLUS]) # => 1.00727643207
+
+### Subatomic constants on Mspire::Mass
+
+The strings that play nice are defined as constants on Mspire::Mass so you can
+do this:
+
+```ruby
+Mspire::Mass::ELECTRON #=> 0.0005486
+Mspire::Mass::PROTON   #=> 1.00727643207
+Mspire::Mass::NEUTRON  #=> 1.0086649156
+```

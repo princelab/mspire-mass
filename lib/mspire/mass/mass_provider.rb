@@ -44,9 +44,12 @@ module Mspire
       #     case: :up     | :down   | :both
       #     by:   :symbol | :string | :both
       #
-      # accepts a hash with symbol or string keys.  The keys should be in
-      # uppercase or mixed case to begin with.  the :up merely respects the
-      # given case, while :down actively downcases.
+      # By default will use the module's <type>_STRING constant but this can
+      # be overridden with the :hash option which accetps a hash with symbol
+      # or string keys in uppercase or mixed case form (the :up merely
+      # respects the given case, while :down actively downcases.  Accepts a
+      # hash with symbol or string keys.  The keys should be in uppercase or
+      # mixed case to begin with.        
       def masses(opts={})
         opt = DEFAULTS.merge(opts)
         prepare_hash(opt[:hash] || self.const_get(opt[:type].to_s.upcase << "_STRING"), opt)
