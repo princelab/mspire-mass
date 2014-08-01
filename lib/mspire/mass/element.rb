@@ -9,22 +9,15 @@ module Mspire
       MONO_STRING = {}
       Mspire::Isotope::BY_ELEMENT.each do |el, isotopes|
         AVG_STRING[el.to_s] = isotopes.first.average_mass
-        MONO_STRING[el.to_s] = isotopes.find {|iso| iso.mono }.atomic_mass
+        MONO_STRING[el.to_s] = isotopes.find(&:mono).atomic_mass
       end
 
       MONO_STRING['D'] = Mspire::Isotope::BY_ELEMENT[:H].find {|iso| iso.element == :H && iso.mass_number == 2 }.atomic_mass
 
-      MONO_SYMBOL = Mspire::Mass::Util.symbol_keys( MONO_STRING )
-      AVG_SYMBOL = Mspire::Mass::Util.symbol_keys( AVG_STRING )
-      MONO = MONO_SYMBOL.merge(MONO_STRING)
-      AVG = AVG_SYMBOL.merge(AVG_STRING)
-
-      class << self
-        def [](key)
-          MONO[key]
-        end
+      def masses(opts={})
+        opt = Mspire::Mass::DEFAULTS.merge(opts)
+        Mspire::Mass::Util.prepare_hash(Mspire::Mass::Element.const_get(opt[:type].upcase << "_STRING"), opt)
       end
-
     end
   end
 end
