@@ -1,5 +1,4 @@
 require 'mspire/mass/version'
-
 require 'mspire/mass/element'
 require 'mspire/mass/subatomic'
 require 'mspire/mass/common'
@@ -7,7 +6,6 @@ require 'mspire/mass/aa'
 
 module Mspire
   module Mass
-
     ELECTRON = Subatomic::MONO[:e]
     NEUTRON = Subatomic::MONO[:neutron]
     PROTON = Subatomic::MONO[:proton]
