@@ -35,6 +35,7 @@ Mspire::Mass::Merged::MONO_STRING['C']   # (cysteine) => 103.0091844778
 Mspire::Mass::Merged::MONO_STRING['c']   # (carbon)   => 12.0
 Mspire::Mass::Merged::MONO_STRING['h2o'] # (water)    => 18.0105646837
 Mspire::Mass::Merged::MONO_STRING['e']   # (or 'electron') => 0.0005486 
+# Mspire::Mass::Merged::AVG_STRING also available
 ```
 
 ### <Module>.masses
@@ -60,6 +61,16 @@ aas['C'] # (cysteine) => 103.1429
 
 subatomic = Mspire::Mass::Subatomic.masses
 subatomic[:PROTON]   # (same as subatomic[:'H+'] or subatomic[:H_PLUS]) # => 1.00727643207
+```
+
+A merged hash can be created in a similar way, but :up and :down aren't
+respected since it merges by upcasing amino acids and downcasing all else.
+
+```ruby
+merged = Mspire::Mass::Merged.masses(type: :mono)
+merged[:C] # (cysteine) => 103.0091844778
+merged[:c] # (carbon)   => 12.0
+```
 
 ### Subatomic constants on Mspire::Mass
 
