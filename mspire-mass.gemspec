@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   [
+    # should probably be its only dependency
     ["mspire-isotope", "~> 0.1.0"],
   ].each do |args|
     spec.add_dependency(*args)
