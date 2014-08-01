@@ -36,4 +36,10 @@ describe Mspire::Mass::Element do
     masses = Mspire::Mass::Element.masses(type: :avg, by: :symbol, case: :down)
     masses[:se].should == 78.96
   end
+
+  specify 'can pass in own lookup hash' do
+    masses = Mspire::Mass::Element.masses(hash: {Se: 77})
+    masses[:Se].should == 77
+  end
+
 end

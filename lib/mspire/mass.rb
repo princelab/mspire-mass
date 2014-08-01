@@ -5,11 +5,15 @@ require 'mspire/mass/common'
 require 'mspire/mass/aa'
 
 module Mspire
+  # includes the Subatomic entities that are acceptable contants (e.g., H+
+  # won't work) as uppercase module constants (e.g.  Mspire::Mass::ELECTRON
+  # and Mspire::Mass::PROTON)
   module Mass
-    ELECTRON = Subatomic::MONO[:e]
-    NEUTRON = Subatomic::MONO[:neutron]
-    PROTON = Subatomic::MONO[:proton]
-    H_PLUS = PROTON
+    Subatomic::MONO_STRING.each do |key, val|
+      unless key == 'H+'
+        self.const_set(key, val)
+      end
+    end
 
     #class << self
       ## takes a molecular formula as a string, hash or MolecularFormula object

@@ -1,22 +1,14 @@
-
 module Mspire
   module Mass
-    DEFAULTS = {
-      type: :mono,
-      by: :symbol,
-      case: :up,
-    }
+    module MassProvider
+      DEFAULTS = {
+        type: :mono,
+        by: :symbol,
+        case: :up,
+      }
 
-    module Util
-
-      # options:
-      #     case: :up     | :down   | :both
-      #     by:   :symbol | :string | :both
-      #
-      # accepts a hash with symbol or string keys.  The keys must be in
-      # uppercase or mixed case to begin with.
-      def self.prepare_hash(hash, opts={})
-        opt = Mspire::Mass::DEFAULTS.merge(opts)
+      def prepare_hash(hash, opts={})
+        opt = Mspire::Mass::MassProvider::DEFAULTS.merge(opts)
         newhash = {}
 
         (upcase, downcase, symbol, string) = 
@@ -43,6 +35,21 @@ module Mspire
           final_keys.each {|key| newhash[key] = v }
         end
         newhash
+      end
+
+      # options:
+      #
+      #          <default>
+      #     type: :mono   | :avg
+      #     case: :up     | :down   | :both
+      #     by:   :symbol | :string | :both
+      #
+      # accepts a hash with symbol or string keys.  The keys should be in
+      # uppercase or mixed case to begin with.  the :up merely respects the
+      # given case, while :down actively downcases.
+      def masses(opts={})
+        opt = DEFAULTS.merge(opts)
+        prepare_hash(opt[:hash] || self.const_get(opt[:type].to_s.upcase << "_STRING"), opt)
       end
     end
   end

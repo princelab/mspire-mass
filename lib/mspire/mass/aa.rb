@@ -1,8 +1,9 @@
-require 'mspire/mass/util'
+require 'mspire/mass/mass_provider'
 
 module Mspire
   module Mass
     module AA
+      extend MassProvider
 
       # amino_acids keys as strings, average masses
       AVG_STRING = {
@@ -64,23 +65,6 @@ module Mspire
         "Z"=>128.550585
       }
 
-      # amino_acids keys as symbols, monoisotopic masses
-      MONO_SYMBOL = Mspire::Mass::Util.symbol_keys( MONO_STRING )
-
-      # amino_acids keys as symbols, average masses
-      AVG_SYMBOL = Mspire::Mass::Util.symbol_keys( AVG_STRING )
-
-      # Monoisotopic amino acid masses keyed as symbols and also strings 
-      MONO = MONO_SYMBOL.merge(MONO_STRING)
-
-      # Average amino acid masses keyed as symbols and also strings
-      AVG = AVG_SYMBOL.merge(AVG_STRING)
-
-      class << self
-        def [](key) 
-          MONO[key]
-        end
-      end
     end
   end
 end

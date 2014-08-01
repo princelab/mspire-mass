@@ -1,9 +1,10 @@
 require 'mspire/isotope'
-require 'mspire/mass/util'
+require 'mspire/mass/mass_provider'
 
 module Mspire
   module Mass
     module Element
+      extend MassProvider
 
       AVG_STRING = {}
       MONO_STRING = {}
@@ -14,12 +15,6 @@ module Mspire
 
       MONO_STRING['D'] = Mspire::Isotope::BY_ELEMENT[:H].find {|iso| iso.element == :H && iso.mass_number == 2 }.atomic_mass
 
-      class << self
-        def masses(opts={})
-          opt = Mspire::Mass::DEFAULTS.merge(opts)
-          Mspire::Mass::Util.prepare_hash(Mspire::Mass::Element.const_get(opt[:type].to_s.upcase << "_STRING"), opt)
-        end
-      end
     end
   end
 end

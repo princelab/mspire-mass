@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'mspire/mass/all'
+require 'mspire/mass/merged'
 
-describe Mspire::Mass::All do
+describe Mspire::Mass::Merged do
   it 'accesses elements by lower case and amino acids by upper case' do
     {
       'c' => 12.0,  # carbon
@@ -15,19 +15,40 @@ describe Mspire::Mass::All do
       'oh' => 17.002739665, # oh
       'e' => 0.0005486, # electron
     }.each do |el, mass|
-      Mspire::Mass::All::MONO[el].should_not be_nil
-      Mspire::Mass::All::MONO[el].should == Mspire::Mass::All::MONO[el.to_sym]
-      Mspire::Mass::All::MONO[el].should be_within(0.00001).of(mass) 
+      Mspire::Mass::Merged::MONO_STRING[el].should_not be_nil
+      Mspire::Mass::Merged::MONO_STRING[el].should be_within(0.00001).of(mass) 
     end
 
-    { h: 1.00794, he: 4.002602, ni: 58.6934, H: 137.13928 }.each do |el, mass|
-      Mspire::Mass::All::AVG[el].should_not be_nil
-      Mspire::Mass::All::AVG[el].should == Mspire::Mass::All::AVG[el.to_sym]
-      Mspire::Mass::All::AVG[el].should be_within(0.00001).of(mass) 
+    { 'h' => 1.00794, 'he' => 4.002602, 'ni' => 58.6934, 'H' => 137.13928 }.each do |el, mass|
+      Mspire::Mass::Merged::AVG_STRING[el].should_not be_nil
+      Mspire::Mass::Merged::AVG_STRING[el].should be_within(0.00001).of(mass) 
     end
   end
 
-  it 'mono may be accessed directly' do
-    Mspire::Mass::All[:c].should == 12.0
+  specify '#masses can return hash of mono|avg, symbols|strings|both' do
+    masses = Mspire::Mass::Merged.masses
+    masses[:D].should == 115.026943032
+    masses[:d].should == 2.0141017778
+
+    masses = Mspire::Mass::Merged.masses(type: :mono)
+    masses[:D].should == 115.026943032
+    masses[:d].should == 2.0141017778
+
+    masses = Mspire::Mass::Merged.masses(by: :symbol)
+    masses[:D].should == 115.026943032
+    masses[:d].should == 2.0141017778
+
+    masses = Mspire::Mass::Merged.masses(type: :avg, by: :string)
+    masses['D'].should == 115.0874
+    masses['d'].should be_nil  # there is no deuterium as an average mass!
+    masses['c'].should == 12.0107
   end
+
+  specify ':case => :up and => :down are meaningless' do
+    masses = Mspire::Mass::Merged.masses(type: :avg, by: :string, case: :down)
+    #masses = Mspire::Mass::Merged.masses(type: :avg, by: :string)
+    masses['D'].should == 115.0874
+    masses['c'].should == 12.0107
+  end
+
 end
