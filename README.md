@@ -41,7 +41,7 @@ Mspire::Mass::Merged::MONO_STRING['e']   # (or 'electron') => 0.0005486
 ### <Module>.masses
 
 A mass hash can be created in a variety of forms depending on your
-needs/preferences. **NOTE:** it defaults to symbols, not strings.
+needs/preferences. 
 
     ---------------------------------
           <default>
@@ -49,6 +49,8 @@ needs/preferences. **NOTE:** it defaults to symbols, not strings.
     type = :mono   | :avg
     by   = :symbol | :string | :both
     case = :up     | :down   | :both
+
+**NOTE:** it defaults to symbols, not strings.
 
 ```ruby
 el_masses = Mspire::Mass::Element.masses
