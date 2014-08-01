@@ -17,18 +17,12 @@ module Mspire
         'OH' => %w(O H).map {|el| avg_string[el] }.reduce(:+),
       }
 
-      MONO_SYMBOL = Mspire::Mass::Util.symbol_keys( MONO_STRING )
-      MONO = MONO_STRING.merge( MONO_SYMBOL )
-
-      AVG_SYMBOL = Mspire::Mass::Util.symbol_keys( AVG_STRING )
-      AVG = AVG_STRING.merge( AVG_SYMBOL )
-
       class << self
-        def [](key)
-          MONO[key]
+        def masses(opts={})
+          opt = Mspire::Mass::DEFAULTS.merge(opts)
+          Mspire::Mass::Util.prepare_hash(Mspire::Mass::Common.const_get(opt[:type].to_s.upcase << "_STRING"), opt)
         end
       end
-
     end
   end
 end

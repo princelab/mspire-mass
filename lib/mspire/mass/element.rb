@@ -14,9 +14,11 @@ module Mspire
 
       MONO_STRING['D'] = Mspire::Isotope::BY_ELEMENT[:H].find {|iso| iso.element == :H && iso.mass_number == 2 }.atomic_mass
 
-      def masses(opts={})
-        opt = Mspire::Mass::DEFAULTS.merge(opts)
-        Mspire::Mass::Util.prepare_hash(Mspire::Mass::Element.const_get(opt[:type].upcase << "_STRING"), opt)
+      class << self
+        def masses(opts={})
+          opt = Mspire::Mass::DEFAULTS.merge(opts)
+          Mspire::Mass::Util.prepare_hash(Mspire::Mass::Element.const_get(opt[:type].to_s.upcase << "_STRING"), opt)
+        end
       end
     end
   end

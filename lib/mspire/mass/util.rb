@@ -13,7 +13,8 @@ module Mspire
       #     case: :up     | :down   | :both
       #     by:   :symbol | :string | :both
       #
-      # accepts a hash with symbol or string keys
+      # accepts a hash with symbol or string keys.  The keys must be in
+      # uppercase or mixed case to begin with.
       def self.prepare_hash(hash, opts={})
         opt = Mspire::Mass::DEFAULTS.merge(opts)
         newhash = {}
@@ -26,7 +27,7 @@ module Mspire
         hash.each do |k,v| 
           keys = []
           if upcase
-            keys << k.to_s.upcase
+            keys << k.to_s  # <= assumes they start in proper up or mixed case
           end
           if downcase
             keys << k.to_s.downcase

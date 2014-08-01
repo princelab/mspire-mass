@@ -12,6 +12,8 @@ module Mspire
       MONO_STRING['PROTON'] = MONO_STRING['H+'] = Mspire::Mass::Element::MONO_STRING['H'] - MONO_STRING['ELECTRON']
       MONO_STRING['E'] = MONO_STRING['ELECTRON']
 
+      AVG_STRING = MONO_STRING.dup
+
       # accepts same arguments as Mspire::Masses::Element.masses but note that
       # both :mono and :avg will give the same values for subatomic entitities
       class << self
