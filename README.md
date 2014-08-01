@@ -38,6 +38,10 @@ Mspire::Mass::Merged::MONO_STRING['e']   # (or 'electron') => 0.0005486
 # Mspire::Mass::Merged::AVG_STRING also available
 ```
 
+MONO\_STRING and AVG\_STRING are only for quick, low-level access.  They are
+purposefully ugly to encourage you to use the beautiful interface shown
+directly below!
+
 ### <Module>.masses
 
 A mass hash can be created in a variety of forms depending on your
